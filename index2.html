@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pesan Masuk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 min-h-screen font-sans">
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- HEADER -->
+    <header class="bg-white rounded-2xl shadow-md p-6 flex flex-col md:flex-row
+    md:items-center md:justify-between mb-8">
+        
+        <h1 class="text-3xl font-bold text-slate-800 flex items-center gap-2">
+            📩 <span>Data Pesan Masuk</span>
+        </h1>
+
+        <div class="flex gap-3 mt-4 md:mt-0">
+            <a href="index.html"
+            class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-2 rounded-xl
+            font-semibold transition">
+            ⬅ Beranda
+            </a>
+
+            <button onclick="logout()"
+                class="bg-red-600 hover:bg-red-500 text-white px-5 py-2 rounded-xl
+                font-semibold transition">
+                🚪 Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="bg-white rounded-2xl shadow-md overflow-hidden">
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-slate-700">
+                <thead class="bg-slate-800 text-white text-sm uppercase">
+                    <tr>
+                        <th class="px-6 py-4 text-center">No</th>
+                        <th class="px-6 py-4 text-center">Nama</th>
+                        <th class="px-6 py-4 text-center">Email</th>
+                        <th class="px-6 py-4 text-center">Pesan</th>
+                    </tr>
+                </thead>
+
+                <tbody id="dataTable" class="divide-y"></tbody>
+            </table>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div id="emptystate" class="hidden text-center py-16 text-slate-500">
+            <p class="text-4xl mb-3">📭</p>
+            <p class="text-lg font-semibold">Belum ada pesan masuk</p>
+            <p class="text-sm">Pesan dari pengunjung akan muncul di sini</p>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // Check login status
+    const authData = JSON.parse(localStorage.getItem('auth'));
+    if (!authData || !authData.isLogin) {
+        alert('Anda harus login terlebih dahulu!');
+        window.location.href = 'login2.html';
+    }
+
+    const dataTable = document.getElementById('dataTable');
+    const emptyState = document.getElementById('emptystate');
+    const data = JSON.parse(localStorage.getItem("pesan")) || [];
+
+    if (data.length === 0) {
+        emptyState.classList.remove('hidden');
+    } else {
+        data.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.classList.add("hover:bg-slate-50", "transition");
+            row.innerHTML = `
+                <td class="px-6 py-4 text-center font-semibold">${index + 1}</td>
+                <td class="px-6 py-4 text-center">${item.nama}</td>
+                <td class="px-6 py-4 text-center text-blue-600">${item.email}</td>
+                <td class="px-6 py-4 text-center">${item.message}</td>
+            `;
+            dataTable.appendChild(row);
+        });
+    }
+
+    function logout() {
+        if (confirm('Apakah anda yakin ingin logout?')) {
+            localStorage.removeItem('auth');
+            window.location.href = 'login2.html';
+        }
+    }
+</script>
+
+</body>
+</html>

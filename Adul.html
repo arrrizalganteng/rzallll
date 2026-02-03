@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - Brandzall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="px-6 py-16 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-10">Kontak Kami</h2>
+            <form name="nameform" method="post" class="max-w-xl mx-auto bg-gray-100 p-8 rounded-xl shadow space-y-4">
+                <input name="nama" type="text" id="nama" placeholder="Nama" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                <input name="email" type="email" id="email" placeholder="Email" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                <textarea name="pesan" id="pesan" placeholder="Pesan" rows="5" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"></textarea>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition">Kirim Pesan</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-slate-800 text-white text-center p-6">
+        <p>&copy; 2026 Arizal nih boss.</p>
+    </footer>
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        function validateForm() {
+            let nama = document.forms["nameform"]["nama"].value;
+            let email = document.forms["nameform"]["email"].value;
+            let pesan = document.forms["nameform"]["pesan"].value;
+
+            if (nama == "") {
+                alert("kolom nama harus di isi");
+                return false;
+            }
+            if (email == "") {
+                alert("kolom email harus di isi");
+                return false;
+            }
+            if (pesan == "") {
+                alert("kolom pesan harus di isi");
+                return false;
+            }
+
+            alert("Pesan berhasil dikirim!");
+            return true;
+        }
+
+        document.forms["nameform"].addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            if (validateForm() === false) return;
+
+            const nama = document.forms["nameform"]["nama"].value;
+            const email = document.forms["nameform"]["email"].value;
+            const message = document.forms["nameform"]["pesan"].value;
+
+            const data = {
+                nama: nama,
+                email: email,
+                message: message
+            };
+
+            let listdata = JSON.parse(localStorage.getItem("pesan")) || [];
+            listdata.push(data);
+            localStorage.setItem("pesan", JSON.stringify(listdata));
+        });
+    </script>
+</body>
+</html>
